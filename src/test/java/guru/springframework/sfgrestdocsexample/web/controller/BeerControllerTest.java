@@ -33,7 +33,7 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(RestDocumentationExtension.class)
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.springframework", uriPort = 80)
 @WebMvcTest(BeerController.class)
 @ComponentScan(basePackages = "guru.springframework.sfgrestdocsexample.web.mappers")
 class BeerControllerTest {
@@ -55,7 +55,7 @@ class BeerControllerTest {
                         .param("isCold", "true")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("v1/beer", pathParameters(
+                .andDo(document("v1/beer-get", pathParameters(
                         parameterWithName("beerId").description("UUID of desired beer to get")
                 ), requestParameters(
                         parameterWithName("isCold").description("Is Beer Cold query param")
@@ -84,7 +84,7 @@ class BeerControllerTest {
                         .content(beerDtoJson))
                 .andExpect(status().isCreated())
                 .andDo(
-                        document("v1/beer",
+                        document("v1/beer-new",
                                 requestFields(
                                         fields.withPath("id").ignored(),
                                         fields.withPath("beerName").description("Name of Beer"),
@@ -129,7 +129,7 @@ class BeerControllerTest {
         }
 
         private FieldDescriptor withPath(String path) {
-            return fieldWithPath(path).attributes(key("constraints").value(StringUtils.collectionToDelimitedString(this.constraintDescriptions.descriptionsForProperty(path), ".")));
+            return fieldWithPath(path).attributes(key("constraints").value(StringUtils.collectionToDelimitedString(this.constraintDescriptions.descriptionsForProperty(path), ".\n")));
         }
     }
 }
