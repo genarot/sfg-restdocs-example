@@ -50,4 +50,4 @@ Request Fields
 include::{snippets}/v1/beer-new/request-fields.adoc[]
 
 Response Fields:
-include::{snippets}
+include::{snippets}/v1/beer-new/response-fields.adoc[]
